@@ -1,18 +1,22 @@
 # Go: Строки и байты
 Строки в Go — это иммутабельные массивы байт. Для стандартного компилятора Go внутренняя структура строки описана как:<br >
 
-`type _string struct {
+```go
+type _string struct {
   elements *byte // байты
   len      int   // кол-во байт
-}`
+}
+```
 После инициализации строку нельзя изменить и такая иммутабельность позволяет избежать побочных эффектов в коде.<br >
 
-`s := "hello"
-s[4] = "" // ошибка компиляции: cannot assign to s[4] (strings are immutable)`
+```go
+s := "hello"
+s[4] = "" // ошибка компиляции: cannot assign to s[4] (strings are immutable)
+```
 
 Стоит отметить, что тип данных byte — это алиас к типу uint8 (0-255). Во-первых, потому что нужно абстрактно отличать типы в коде. Во-вторых, байты представляют ASCII символы, а в кодовой таблице ASCII символов 256 кодов:<br ><br >
 
-`
+```go
 package main
 
 import "fmt"
@@ -24,11 +28,11 @@ func main() {
 
   fmt.Println(string(s[0]), string(s[1]), string(s[2])) // h e y
 }
-`
+```
 
 Большинство библиотечных функций работают со слайсами байт []byte для производительности. Конвертация строки в слайс байт описывается в коде явно:<br ><br >
 
-`
+```go
 package main
 
 import "fmt"
@@ -41,11 +45,11 @@ func main() {
 
   fmt.Println(string(bs)) // hey
 }
-`
+```
 
 Отдельные ASCII символы можно объявлять сразу с типом byte. Для этого нужно обернуть символ в одинарные кавычки и указать тип byte:<br >
 
-`
+```go
 package main
 
 import (
@@ -61,16 +65,16 @@ func main() {
 
   fmt.Println(reflect.TypeOf(asciiChStr), asciiChStr) // string Z
 }
-`
+```
 
 # Task
 
 Реализуйте функции nextASCII(b byte) byte и prevASCII(b byte) byte, которые возвращают следующий или предыдущий символ ASCII таблицы соответственно. Например: <br >
 
-`
+```go
 nextASCII(byte('a')) // 'b'
 
 prevASCII(byte('b')) // 'a'
-`
+```
 <br >
 Допускаем, что в функцию prevASCII не может прийти нулевой символ, а в функцию nextASCII — последний символ ASCII таблицы.
